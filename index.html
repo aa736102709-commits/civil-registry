@@ -1,54 +1,59 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>دليل المواطنين</title>
+<title>السجل المدني</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 body{
-  margin:0;
-  font-family:Tahoma, Arial;
-  background:#f2f4f7;
-  direction:rtl;
-  text-align:center;
+    font-family: Tahoma, Arial;
+    background:#f2f4f7;
+    margin:0;
+    padding:0;
+    text-align:center;
 }
 header{
-  background:#0b3c6f;
-  color:#fff;
-  padding:25px;
-  font-size:22px;
+    background:#0b3c6f;
+    color:white;
+    padding:25px;
 }
 .box{
-  background:#fff;
-  max-width:420px;
-  margin:30px auto;
-  padding:20px;
-  border-radius:8px;
-  box-shadow:0 0 10px rgba(0,0,0,.1);
+    background:white;
+    max-width:420px;
+    margin:30px auto;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1);
 }
 input{
-  width:100%;
-  padding:12px;
-  margin:10px 0;
-  font-size:16px;
+    width:100%;
+    padding:12px;
+    margin:10px 0;
+    font-size:16px;
 }
 button{
-  width:100%;
-  padding:12px;
-  background:#0b3c6f;
-  color:#fff;
-  border:none;
-  font-size:18px;
-  cursor:pointer;
+    width:100%;
+    padding:12px;
+    background:#0b5ed7;
+    color:white;
+    border:none;
+    font-size:16px;
+    cursor:pointer;
 }
 .result{
-  margin-top:15px;
-  font-size:16px;
+    margin-top:15px;
+    font-weight:bold;
+}
+.error{
+    color:#b02a37;
+}
+.success{
+    color:#146c43;
 }
 footer{
-  margin-top:40px;
-  color:#666;
+    margin-top:40px;
+    color:#777;
 }
 </style>
 </head>
@@ -56,38 +61,57 @@ footer{
 <body>
 
 <header>
-دليل المواطنين<br>
-<span style="font-size:14px;">خدمة الاستعلام عن المعاملات</span>
+    <h2>دليل المواطنين</h2>
+    <p>نظام بحث تجريبي</p>
 </header>
 
 <div class="box">
-<input id="order" placeholder="أدخل رقم الطلب">
-<button onclick="search()">بحث</button>
-<div class="result" id="result"></div>
+    <h3>البحث عن شخص</h3>
+    <input id="name" placeholder="الاسم الكامل">
+    <input id="id" placeholder="رقم الهوية">
+    <button onclick="search()">بحث</button>
+    <div id="result" class="result"></div>
 </div>
 
 <footer>
-© السجل المدني – 2026
+© 2026 – السجل المدني
 </footer>
 
 <script>
 async function search(){
-  const num = document.getElementById("order").value;
-  const res = document.getElementById("result");
-  res.innerHTML = "جاري البحث...";
+    const name = document.getElementById("name").value.trim();
+    const id   = document.getElementById("id").value.trim();
+    const res  = document.getElementById("result");
 
-  const data = await fetch("data.json").then(r=>r.json());
+    if(!name || !id){
+        res.innerHTML = "⚠ يرجى إدخال الاسم ورقم الهوية";
+        res.className = "result error";
+        return;
+    }
 
-  if(data.طلبات[num]){
-    const t = data.طلبات[num];
-    res.innerHTML = `
-      <b>الاسم:</b> ${t.الاسم}<br>
-      <b>الخدمة:</b> ${t.الخدمة}<br>
-      <b>الحالة:</b> ${t.الحالة}
-    `;
-  } else {
-    res.innerHTML = "❌ رقم الطلب غير موجود";
-  }
+    try{
+        const response = await fetch(
+            "https://raw.githubusercontent.com/aa736102709-commits/civil-registry/main/data.json"
+        );
+        const data = await response.json();
+
+        const person = data.find(p => p.name === name && p.id === id);
+
+        if(person){
+            res.innerHTML =
+                "✔ الاسم: " + person.name + "<br>" +
+                "✔ الهوية: " + person.id + "<br>" +
+                "✔ الحالة: " + person.status;
+            res.className = "result success";
+        }else{
+            res.innerHTML = "❌ لا توجد بيانات مطابقة";
+            res.className = "result error";
+        }
+
+    }catch(e){
+        res.innerHTML = "⚠ خطأ في تحميل البيانات";
+        res.className = "result error";
+    }
 }
 </script>
 
