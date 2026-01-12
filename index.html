@@ -1,122 +1,95 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <title>السجل المدني</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<title>دليل المواطنين</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
-    body {
-      font-family: Tahoma, Arial, sans-serif;
-      background: #f2f5f9;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background: #0b5ed7;
-      color: white;
-      padding: 20px;
-      text-align: center;
-    }
-
-    .container {
-      max-width: 500px;
-      margin: 30px auto;
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    h2 {
-      margin-top: 0;
-      text-align: center;
-    }
-
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background: #0b5ed7;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #094bb5;
-    }
-
-    .result {
-      margin-top: 15px;
-      padding: 10px;
-      background: #eef3ff;
-      border-radius: 5px;
-      display: none;
-    }
-
-    footer {
-      text-align: center;
-      margin-top: 30px;
-      color: #666;
-      font-size: 14px;
-    }
-  </style>
+<style>
+body{
+  margin:0;
+  font-family:Tahoma, Arial;
+  background:#f2f4f7;
+  direction:rtl;
+  text-align:center;
+}
+header{
+  background:#0b3c6f;
+  color:#fff;
+  padding:25px;
+  font-size:22px;
+}
+.box{
+  background:#fff;
+  max-width:420px;
+  margin:30px auto;
+  padding:20px;
+  border-radius:8px;
+  box-shadow:0 0 10px rgba(0,0,0,.1);
+}
+input{
+  width:100%;
+  padding:12px;
+  margin:10px 0;
+  font-size:16px;
+}
+button{
+  width:100%;
+  padding:12px;
+  background:#0b3c6f;
+  color:#fff;
+  border:none;
+  font-size:18px;
+  cursor:pointer;
+}
+.result{
+  margin-top:15px;
+  font-size:16px;
+}
+footer{
+  margin-top:40px;
+  color:#666;
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <h1>السجل المدني</h1>
-    <p>نظام بحث تجريبي</p>
-  </header>
+<header>
+دليل المواطنين<br>
+<span style="font-size:14px;">خدمة الاستعلام عن المعاملات</span>
+</header>
 
-  <div class="container">
-    <h2>البحث عن شخص</h2>
+<div class="box">
+<input id="order" placeholder="أدخل رقم الطلب">
+<button onclick="search()">بحث</button>
+<div class="result" id="result"></div>
+</div>
 
-    <input type="text" id="name" placeholder="الاسم الكامل">
-    <input type="text" id="id" placeholder="رقم الهوية">
+<footer>
+© السجل المدني – 2026
+</footer>
 
-    <button onclick="search()">بحث</button>
+<script>
+async function search(){
+  const num = document.getElementById("order").value;
+  const res = document.getElementById("result");
+  res.innerHTML = "جاري البحث...";
 
-    <div class="result" id="result"></div>
-  </div>
+  const data = await fetch("data.json").then(r=>r.json());
 
-  <footer>
-    © 2026 – نظام تجريبي
-  </footer>
-
-  <script>
-    function search() {
-      var name = document.getElementById("name").value.trim();
-      var id = document.getElementById("id").value.trim();
-      var result = document.getElementById("result");
-
-      if (name === "" || id === "") {
-        result.style.display = "block";
-        result.innerHTML = "⚠️ يرجى إدخال الاسم ورقم الهوية";
-        return;
-      }
-
-      result.style.display = "block";
-      result.innerHTML =
-        "<strong>نتيجة البحث:</strong><br>" +
-        "الاسم: " + name + "<br>" +
-        "رقم الهوية: " + id + "<br>" +
-        "الحالة: موجود (تجريبي)";
-    }
-  </script>
+  if(data.طلبات[num]){
+    const t = data.طلبات[num];
+    res.innerHTML = `
+      <b>الاسم:</b> ${t.الاسم}<br>
+      <b>الخدمة:</b> ${t.الخدمة}<br>
+      <b>الحالة:</b> ${t.الحالة}
+    `;
+  } else {
+    res.innerHTML = "❌ رقم الطلب غير موجود";
+  }
+}
+</script>
 
 </body>
 </html>
