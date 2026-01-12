@@ -1,69 +1,122 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>دليل المواطنين - السجل المدني</title>
+  <title>السجل المدني</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
   <style>
     body {
-      font-family: Tahoma, Arial;
-      background: #f5f7fa;
+      font-family: Tahoma, Arial, sans-serif;
+      background: #f2f5f9;
       margin: 0;
       padding: 0;
-      direction: rtl;
-      text-align: center;
     }
+
     header {
-      background: #0b3c6f;
+      background: #0b5ed7;
       color: white;
       padding: 20px;
+      text-align: center;
     }
-    .box {
+
+    .container {
+      max-width: 500px;
+      margin: 30px auto;
       background: white;
-      max-width: 400px;
-      margin: 40px auto;
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
+
+    h2 {
+      margin-top: 0;
+      text-align: center;
+    }
+
     input {
       width: 100%;
-      padding: 12px;
+      padding: 10px;
       margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
       font-size: 16px;
     }
+
     button {
-      background: #0b3c6f;
+      width: 100%;
+      padding: 12px;
+      background: #0b5ed7;
       color: white;
       border: none;
-      padding: 12px;
-      width: 100%;
+      border-radius: 5px;
       font-size: 16px;
       cursor: pointer;
     }
+
+    button:hover {
+      background: #094bb5;
+    }
+
+    .result {
+      margin-top: 15px;
+      padding: 10px;
+      background: #eef3ff;
+      border-radius: 5px;
+      display: none;
+    }
+
     footer {
-      margin-top: 40px;
+      text-align: center;
+      margin-top: 30px;
       color: #666;
       font-size: 14px;
     }
   </style>
 </head>
+
 <body>
 
-<header>
-  <h1>دليل المواطنين</h1>
-  <p>خدمة الاستعلام عن المعاملات</p>
-</header>
+  <header>
+    <h1>السجل المدني</h1>
+    <p>نظام بحث تجريبي</p>
+  </header>
 
-<div class="box">
-  <p>أدخل رقم الطلب للاستعلام</p>
-  <input type="text" placeholder="رقم الطلب">
-  <button>بحث</button>
-</div>
+  <div class="container">
+    <h2>البحث عن شخص</h2>
 
-<footer>
-  © 2026 – السجل المدني
-</footer>
+    <input type="text" id="name" placeholder="الاسم الكامل">
+    <input type="text" id="id" placeholder="رقم الهوية">
+
+    <button onclick="search()">بحث</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <footer>
+    © 2026 – نظام تجريبي
+  </footer>
+
+  <script>
+    function search() {
+      var name = document.getElementById("name").value.trim();
+      var id = document.getElementById("id").value.trim();
+      var result = document.getElementById("result");
+
+      if (name === "" || id === "") {
+        result.style.display = "block";
+        result.innerHTML = "⚠️ يرجى إدخال الاسم ورقم الهوية";
+        return;
+      }
+
+      result.style.display = "block";
+      result.innerHTML =
+        "<strong>نتيجة البحث:</strong><br>" +
+        "الاسم: " + name + "<br>" +
+        "رقم الهوية: " + id + "<br>" +
+        "الحالة: موجود (تجريبي)";
+    }
+  </script>
 
 </body>
 </html>
