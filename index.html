@@ -2,66 +2,25 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>دليل المواطنين</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- ربط ملف CSS -->
-    <link rel="stylesheet" href="style.css">
+    <title>الاستعلام برقم الطلب</title>
+    <link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 
+    <!-- العنوان الرسمي -->
     <div class="titles">
         <div class="country">الجمهورية اليمنية</div>
         <div class="dept">مصلحة الأحوال المدنية والسجل المدني</div>
         <div class="location">شبوة – عتق</div>
     </div>
 
-    <div class="container floating-box">
-
+    <!-- مربع الاستعلام -->
+    <div class="floating-box">
         <h2>الاستعلام برقم الطلب</h2>
-
-        <input id="order" type="text" placeholder="أدخل رقم الطلب">
-
-        <button onclick="search()">بحث</button>
-
-        <div id="result"></div>
+        <input type="text" placeholder="أدخل رقم الطلب">
+        <button>بحث</button>
     </div>
-
-    <!-- سكربت البحث -->
-    <script>
-    const API = "https://script.google.com/macros/s/AKfycbznNZzHPiblG9ZVOU_TvfjJa5oBX1fnrayehzN7QgCQuu1iii16eDV8nMfBYM7Kmuuw/exec?q=";
-
-    function search() {
-        const q = document.getElementById("order").value.trim();
-        const result = document.getElementById("result");
-
-        if (!q) {
-            result.innerHTML = "<div class='error'>يرجى إدخال رقم الطلب</div>";
-            return;
-        }
-
-        result.innerHTML = "جاري البحث...";
-
-        fetch(API + encodeURIComponent(q))
-            .then(res => res.json())
-            .then(data => {
-                if (!data || data.status === "not_found") {
-                    result.innerHTML = "<div class='error'>الطلب غير موجود</div>";
-                } else {
-                    result.innerHTML = `
-                        <div class="success">
-                            <p><b>رقم الطلب:</b> ${data.order}</p>
-                            <p><b>الاسم:</b> ${data.name}</p>
-                            <p><b>الحالة:</b> ${data.status}</p>
-                        </div>
-                    `;
-                }
-            })
-            .catch(() => {
-                result.innerHTML = "<div class='error'>خطأ في الاتصال</div>";
-            });
-    }
-    </script>
 
 </body>
 </html>
