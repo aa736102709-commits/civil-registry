@@ -1,33 +1,90 @@
-/* الخلفية – تصغير الصورة */
-body {
-    background: url("bg.jpg") no-repeat left center;
-    background-size: 78%;          /* ← يصغر الصورة */
-    background-color: #f5f6f8;     /* لون خفيف للفراغ */
-    position: relative;
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
     min-height: 100vh;
+    font-family: Tahoma, Arial;
 }
 
-/* المربع في المكان الفاضي */
+/* الخلفية – الصورة كاملة بدون قص */
+body {
+    background-image: url("bg.jpg");
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-size: contain;     /* يمنع القص نهائيًا */
+    background-color: #f2f4f7;
+    position: relative;
+}
+
+/* النص الرسمي أعلى الصفحة */
+.titles {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    color: #1f3c88;
+    line-height: 1.6;
+}
+
+.titles .country {
+    font-size: 16px;
+}
+
+.titles .dept {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.titles .location {
+    font-size: 15px;
+}
+
+/* مربع الاستعلام في الفراغ */
 .floating-box {
     position: absolute;
     top: 55%;
-    right: 5%;                     /* داخل الفراغ */
+    right: 4%;
     transform: translateY(-50%);
     width: 330px;
 
-    background: rgba(255,255,255,0.95);
+    background: rgba(255, 255, 255, 0.96);
     padding: 22px;
     border-radius: 14px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.25);
     text-align: center;
-    z-index: 10;
 }
 
-/* للجوال */
+.floating-box h2 {
+    margin-bottom: 14px;
+    color: #1f3c88;
+}
+
+.floating-box input {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 12px;
+}
+
+.floating-box button {
+    width: 100%;
+    padding: 12px;
+    font-size: 15px;
+    background: #1f3c88;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* الجوال */
 @media (max-width: 768px) {
     body {
-        background-size: cover;
-        background-position: center;
+        background-size: contain;
+        background-position: center top;
     }
 
     .floating-box {
@@ -37,5 +94,12 @@ body {
         transform: none;
         margin: 260px auto 0;
         width: 90%;
+    }
+
+    .titles {
+        position: relative;
+        left: auto;
+        transform: none;
+        margin-top: 20px;
     }
 }
