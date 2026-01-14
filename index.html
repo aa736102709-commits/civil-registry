@@ -4,23 +4,131 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>الاستعلام برقم الطلب</title>
-  <link rel="stylesheet" href="style.css">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: Tahoma, Arial, sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #f2f4f7;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* صورة الخلفية */
+    .hero {
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .hero img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* مربع الاستعلام */
+    .box {
+      width: 90%;
+      max-width: 420px;
+      background: #fff;
+      margin-top: -40px;
+      padding: 22px;
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+      text-align: center;
+    }
+
+    .box h3 {
+      margin: 0 0 15px;
+      color: #1f3c88;
+      font-size: 20px;
+    }
+
+    .box input {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .box button {
+      width: 100%;
+      padding: 14px;
+      font-size: 17px;
+      background: #1f3c88;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    .box button:active {
+      opacity: 0.9;
+    }
+
+    #result {
+      margin-top: 15px;
+      font-size: 15px;
+      color: #333;
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- الصورة فقط -->
-<div class="hero">
-  <img src="bg.jpg" alt="الخلفية">
-</div>
+  <!-- صورة الخلفية -->
+  <div class="hero">
+    <img src="bg.jpg" alt="الخلفية">
+  </div>
 
-<!-- مربع الاستعلام فقط -->
-<div class="box-wrapper">
+  <!-- مربع الاستعلام -->
   <div class="box">
     <h3>الاستعلام برقم الطلب</h3>
-    <input type="text" placeholder="أدخل رقم الطلب">
-    <button>بحث</button>
+    <input type="text" id="order" placeholder="أدخل رقم الطلب">
+    <button onclick="search()">بحث</button>
+    <div id="result"></div>
   </div>
-</div>
+
+  <!-- JavaScript مدمج -->
+  <script>
+    const API_URL = "https://script.google.com/macros/s/AKfycbzNZZhPiblG9ZVOU_TvfjJa5oBX1fnrayehzN7QgCQuu1iii16eDV8nMfBYM7Kmuuw/exec";
+
+    function search() {
+      const order = document.getElementById("order").value.trim();
+      const result = document.getElementById("result");
+
+      if (!order) {
+        result.innerHTML = "⚠️ أدخل رقم الطلب";
+        return;
+      }
+
+      result.innerHTML = "⏳ جارٍ البحث...";
+
+      fetch(API_URL + "?order=" + encodeURIComponent(order))
+        .then(res => res.json())
+        .then(data => {
+          if (data.error) {
+            result.innerHTML = "❌ غير موجود";
+          } else {
+            result.innerHTML = `
+              <strong>الاسم:</strong> ${data.name}<br>
+              <strong>الحالة:</strong> ${data.status}
+            `;
+          }
+        })
+        .catch(() => {
+          result.innerHTML = "❌ خطأ في الاتصال";
+        });
+    }
+  </script>
 
 </body>
 </html>
