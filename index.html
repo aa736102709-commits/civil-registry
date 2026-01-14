@@ -1,140 +1,66 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>دليل المواطنين</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>دليل المواطنين</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      font-family: Tahoma, Arial;
-      background: #f2f4f7;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-    header {
-      background: #0b3c6f;
-      color: #fff;
-      padding: 30px 10px;
-    }
-    .box {
-      background: #fff;
-      max-width: 420px;
-      margin: 30px auto;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,.1);
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      font-size: 16px;
-      margin-bottom: 15px;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      background: #0b3c6f;
-      color: #fff;
-      border: none;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 15px;
-    }
-    td {
-      border: 1px solid #ccc;
-      padding: 10px;
-    }
-    td.title {
-      background: #0b3c6f;
-      color: #fff;
-      width: 40%;
-      font-weight: bold;
-    }
-    .error {
-      color: red;
-      margin-top: 10px;
-    }
-    footer {
-      margin: 30px;
-      color: #666;
-      font-size: 14px;
-    }
-  </style>
+    <!-- ربط ملف CSS -->
+    <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<header>
-  <h1>دليل المواطنين</h1>
-  <p>نظام بحث تجريبي</p>
-</header>
+    <div class="titles">
+        <div class="country">الجمهورية اليمنية</div>
+        <div class="dept">مصلحة الأحوال المدنية والسجل المدني</div>
+        <div class="location">شبوة – عتق</div>
+    </div>
 
-<div class="box">
-  <h3>الاستعلام برقم الطلب</h3>
+    <div class="container">
+        <h2>الاستعلام برقم الطلب</h2>
 
-  <input id="order" type="text" placeholder="أدخل رقم الطلب">
-  <button onclick="search()">بحث</button>
+        <input id="order" type="text" placeholder="أدخل رقم الطلب">
 
-  <div id="result"></div>
-</div>
+        <button onclick="search()">بحث</button>
 
-<footer>
-  © 2026 – السجل المدني
-</footer>
+        <div id="result"></div>
+    </div>
 
-<script>
-  const API =
-    "https://script.google.com/macros/s/AKfycbznNZzHPiblG9ZVOU_TvfjJa5oBX1fnrayehzN7QgCQuu1iii16eDV8nMfBYM7Kmuuw/exec?q=";
-    // ↑ ضع رابطك الصحيح هنا
+    <!-- سكربت البحث -->
+    <script>
+    const API = "https://script.google.com/macros/s/AKfycbznNZzHPiblG9ZVOU_TvfjJa5oBX1fnrayehzN7QgCQuu1iii16eDV8nMfBYM7Kmuuw/exec?q=";
 
-  function search() {
-    const q = document.getElementById("order").value.trim();
-    const result = document.getElementById("result");
+    function search() {
+        const q = document.getElementById("order").value.trim();
+        const result = document.getElementById("result");
 
-    if (!q) {
-      result.innerHTML = "<div class='error'>يرجى إدخال رقم الطلب</div>";
-      return;
-    }
-
-    result.innerHTML = "جاري البحث...";
-
-    fetch(API + encodeURIComponent(q))
-      .then(res => res.json())
-      .then(data => {
-        if (data.error) {
-          result.innerHTML = "<div class='error'>" + data.error + "</div>";
-          return;
+        if (!q) {
+            result.innerHTML = "<div class='error'>يرجى إدخال رقم الطلب</div>";
+            return;
         }
 
-        result.innerHTML = `
-          <table>
-            <tr>
-              <td class="title">رقم الطلب</td>
-              <td>${data.order}</td>
-            </tr>
-            <tr>
-              <td class="title">حالة الطلب</td>
-              <td>${data.status}</td>
-            </tr>
-            <tr>
-              <td class="title">الاسم الكامل</td>
-              <td>${data.name}</td>
-            </tr>
-          </table>
-        `;
-      })
-      .catch(() => {
-        result.innerHTML =
-          "<div class='error'>خطأ في تحميل البيانات</div>";
-      });
-  }
-</script>
+        result.innerHTML = "جاري البحث...";
+
+        fetch(API + encodeURIComponent(q))
+            .then(res => res.json())
+            .then(data => {
+                if (!data || data.status === "not_found") {
+                    result.innerHTML = "<div class='error'>الطلب غير موجود</div>";
+                } else {
+                    result.innerHTML = `
+                        <div class="success">
+                            <p><b>رقم الطلب:</b> ${data.order}</p>
+                            <p><b>الاسم:</b> ${data.name}</p>
+                            <p><b>الحالة:</b> ${data.status}</p>
+                        </div>
+                    `;
+                }
+            })
+            .catch(() => {
+                result.innerHTML = "<div class='error'>خطأ في الاتصال</div>";
+            });
+    }
+    </script>
 
 </body>
 </html>
