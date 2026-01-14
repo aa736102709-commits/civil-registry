@@ -6,65 +6,73 @@ html, body {
     font-family: Tahoma, Arial;
 }
 
+/* الخلفية: الصورة فقط */
 body {
-    background: url("bg.jpg") no-repeat center center fixed;
-    background-size: cover;
+    background: url("bg.jpg") no-repeat center center;
+    background-size: contain;   /* مهم: يمنع التكبير الزائد */
+    background-color: #f5f5f5;  /* لون خلف الصورة */
 }
 
 /* العناوين */
 .titles {
     text-align: center;
-    margin-top: 40px;
+    margin-top: 30px;
     color: #1f3c88;
 }
 
 .country {
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .dept {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
 }
 
 .location {
-    font-size: 18px;
-    color: #333;
-}
-
-/* مربع البحث */
-.container {
-    max-width: 420px;
-    margin: 120px auto;
-    background: rgba(255,255,255,0.96);
-    padding: 30px 20px;
-    border-radius: 16px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
-    text-align: center;
-}
-
-.container input {
-    width: 100%;
-    padding: 14px;
-    margin-bottom: 15px;
     font-size: 16px;
 }
 
+/* إلغاء شكل المربع */
+.container {
+    max-width: 400px;
+    margin: 40px auto;
+    background: none;          /* لا مربع */
+    box-shadow: none;          /* لا ظل */
+    padding: 10px;
+    text-align: center;
+}
+
+/* حقل الإدخال */
+.container input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #aaa;
+    background: rgba(255,255,255,0.85); /* شفاف */
+    margin-bottom: 10px;
+}
+
+/* زر البحث */
 .container button {
     width: 100%;
-    padding: 14px;
-    background: #1f3c88;
-    color: white;
+    padding: 12px;
+    font-size: 16px;
+    background: rgba(31,60,136,0.9);
+    color: #fff;
     border: none;
+    border-radius: 8px;
     cursor: pointer;
 }
 
+/* رسائل */
 .error {
     color: red;
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
 .success {
-    margin-top: 15px;
+    margin-top: 10px;
     text-align: right;
 }
