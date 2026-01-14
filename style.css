@@ -6,73 +6,72 @@ html, body {
     font-family: Tahoma, Arial;
 }
 
-/* الخلفية: الصورة فقط */
+/* الخلفية */
 body {
     background: url("bg.jpg") no-repeat center center;
-    background-size: contain;   /* مهم: يمنع التكبير الزائد */
-    background-color: #f5f5f5;  /* لون خلف الصورة */
+    background-size: cover;
 }
 
-/* العناوين */
+/* العناوين أعلى الصفحة */
 .titles {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     text-align: center;
-    margin-top: 30px;
     color: #1f3c88;
 }
 
-.country {
-    font-size: 16px;
-}
-
-.dept {
-    font-size: 20px;
-    font-weight: bold;
-}
-
-.location {
-    font-size: 16px;
-}
-
-/* إلغاء شكل المربع */
+/* المربع (الكرت) */
 .container {
-    max-width: 400px;
-    margin: 40px auto;
-    background: none;          /* لا مربع */
-    box-shadow: none;          /* لا ظل */
-    padding: 10px;
+    position: absolute;
+    top: 50%;
+    right: 8%;              /* مكانه في الفراغ */
+    transform: translateY(-50%);
+    width: 340px;           /* حجم مناسب */
+    background: rgba(255, 255, 255, 0.95);
+    padding: 22px 20px;
+    border-radius: 14px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
     text-align: center;
+}
+
+/* عنوان داخل المربع */
+.container h2 {
+    margin-bottom: 15px;
+    color: #1f3c88;
 }
 
 /* حقل الإدخال */
 .container input {
     width: 100%;
     padding: 12px;
-    font-size: 16px;
+    font-size: 15px;
     border-radius: 8px;
-    border: 1px solid #aaa;
-    background: rgba(255,255,255,0.85); /* شفاف */
-    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 12px;
 }
 
 /* زر البحث */
 .container button {
     width: 100%;
     padding: 12px;
-    font-size: 16px;
-    background: rgba(31,60,136,0.9);
+    font-size: 15px;
+    background: #1f3c88;
     color: #fff;
     border: none;
     border-radius: 8px;
     cursor: pointer;
 }
 
-/* رسائل */
-.error {
-    color: red;
-    margin-top: 8px;
-}
-
-.success {
-    margin-top: 10px;
-    text-align: right;
+/* للجوال */
+@media (max-width: 768px) {
+    .container {
+        position: relative;
+        top: auto;
+        right: auto;
+        transform: none;
+        margin: 260px auto 0;
+        width: 90%;
+    }
 }
