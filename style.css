@@ -10,9 +10,10 @@ html, body {
 body {
     background: url("bg.jpg") no-repeat center center;
     background-size: cover;
+    position: relative;
 }
 
-/* العناوين أعلى الصفحة */
+/* العناوين */
 .titles {
     position: absolute;
     top: 20px;
@@ -20,30 +21,33 @@ body {
     transform: translateX(-50%);
     text-align: center;
     color: #1f3c88;
+    z-index: 2;
 }
 
-/* المربع (الكرت) */
-.container {
-    position: absolute;
-    top: 50%;
-    right: 8%;              /* مكانه في الفراغ */
-    transform: translateY(-50%);
-    width: 340px;           /* حجم مناسب */
-    background: rgba(255, 255, 255, 0.95);
-    padding: 22px 20px;
+/* المربع – يُجبر على الذهاب للفراغ */
+.floating-box {
+    position: absolute !important;
+    top: 50% !important;
+    right: 6% !important;      /* ← هنا مكان الفراغ */
+    transform: translateY(-50%) !important;
+
+    width: 320px;
+    background: rgba(255,255,255,0.95);
+    padding: 20px;
     border-radius: 14px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
     text-align: center;
+    z-index: 3;
 }
 
-/* عنوان داخل المربع */
-.container h2 {
-    margin-bottom: 15px;
+/* العنوان داخل المربع */
+.floating-box h2 {
+    margin-bottom: 14px;
     color: #1f3c88;
 }
 
-/* حقل الإدخال */
-.container input {
+/* الإدخال */
+.floating-box input {
     width: 100%;
     padding: 12px;
     font-size: 15px;
@@ -52,8 +56,8 @@ body {
     margin-bottom: 12px;
 }
 
-/* زر البحث */
-.container button {
+/* الزر */
+.floating-box button {
     width: 100%;
     padding: 12px;
     font-size: 15px;
@@ -61,17 +65,16 @@ body {
     color: #fff;
     border: none;
     border-radius: 8px;
-    cursor: pointer;
 }
 
 /* للجوال */
 @media (max-width: 768px) {
-    .container {
-        position: relative;
-        top: auto;
-        right: auto;
-        transform: none;
-        margin: 260px auto 0;
+    .floating-box {
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
+        transform: none !important;
+        margin: 280px auto 0;
         width: 90%;
     }
 }
