@@ -1,0 +1,16 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    font-family: Tahoma, Arial;
+}
+
+/* خلفية الموقع كاملة */
+body {
+    background-image: url("bg.jpg");
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: cover;      /* تغطي الشاشة بالكامل */
+    background-attachment: fixed; /* ثابتة */
+}
