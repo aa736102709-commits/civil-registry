@@ -9,24 +9,28 @@
   body {
     margin: 0;
     font-family: Tahoma, Arial;
-    background: #f3f6f9;
+    background: url("bg.jpg") no-repeat center top;
+    background-size: cover;
+    min-height: 100vh;
   }
 
-  .container {
+  /* طبقة شفافية خفيفة */
+  .overlay {
     min-height: 100vh;
+    background: rgba(245,247,250,0.85);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 15px;
+    padding: 20px;
   }
 
   .card {
     width: 100%;
     max-width: 420px;
     background: #ffffff;
-    border-radius: 14px;
+    border-radius: 16px;
     padding: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.2);
   }
 
   .card h2 {
@@ -66,13 +70,14 @@
     margin-top: 15px;
     font-size: 15px;
     line-height: 1.8;
+    text-align: center;
   }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="overlay">
   <div class="card">
     <h2>الاستعلام برقم الطلب</h2>
 
@@ -91,8 +96,6 @@ function checkOrder() {
   const orderId = document.getElementById("orderId").value.trim();
   const result = document.getElementById("result");
 
-  result.innerHTML = "";
-
   if (!orderId) {
     result.innerHTML = "<span style='color:red'>يرجى إدخال رقم الطلب</span>";
     return;
@@ -107,11 +110,9 @@ function checkOrder() {
         result.innerHTML = "<span style='color:red'>" + data.error + "</span>";
       } else {
         result.innerHTML = `
-          <div>
-            <strong>الاسم:</strong> ${data.name}<br>
-            <strong>الخدمة:</strong> ${data.service}<br>
-            <strong>الحالة:</strong> ${data.status}
-          </div>
+          <strong>الاسم:</strong> ${data.name}<br>
+          <strong>الخدمة:</strong> ${data.service}<br>
+          <strong>الحالة:</strong> ${data.status}
         `;
       }
     })
