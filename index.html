@@ -1,26 +1,125 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>الاستعلام برقم الطلب</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الاستعلام برقم الطلب</title>
+
+<style>
+  body {
+    margin: 0;
+    font-family: Tahoma, Arial;
+    background: #f3f6f9;
+  }
+
+  .container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 420px;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  }
+
+  .card h2 {
+    margin: 0 0 20px;
+    text-align: center;
+    color: #1e3a8a;
+    font-size: 20px;
+  }
+
+  input {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+    box-sizing: border-box;
+  }
+
+  button {
+    width: 100%;
+    margin-top: 15px;
+    padding: 14px;
+    font-size: 16px;
+    border-radius: 10px;
+    border: none;
+    background: #1e3a8a;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background: #162f6a;
+  }
+
+  #result {
+    margin-top: 15px;
+    font-size: 15px;
+    line-height: 1.8;
+  }
+</style>
 </head>
+
 <body>
 
-<!-- الصورة فقط -->
-<div class="hero">
-  <img src="bg.jpg" alt="الخلفية">
-</div>
+<div class="container">
+  <div class="card">
+    <h2>الاستعلام برقم الطلب</h2>
 
-<!-- مربع الاستعلام فقط -->
-<div class="box-wrapper">
-  <div class="box">
-    <h3>الاستعلام برقم الطلب</h3>
-    <input type="text" placeholder="أدخل رقم الطلب">
-    <button>بحث</button>
+    <input type="text" id="orderId" placeholder="أدخل رقم الطلب">
+
+    <button onclick="checkOrder()">بحث</button>
+
+    <div id="result"></div>
   </div>
 </div>
+
+<script>
+const API_URL = "https://script.google.com/macros/s/AKfycbzNZzhPiblG9ZVOU_TvfjJa5oBX1fnrayehzN7QgCQuu1iii16eDV8nMfBYM7KmuuW/exec";
+
+function checkOrder() {
+  const orderId = document.getElementById("orderId").value.trim();
+  const result = document.getElementById("result");
+
+  result.innerHTML = "";
+
+  if (!orderId) {
+    result.innerHTML = "<span style='color:red'>يرجى إدخال رقم الطلب</span>";
+    return;
+  }
+
+  result.innerHTML = "جاري التحقق...";
+
+  fetch(API_URL + "?order=" + orderId)
+    .then(res => res.json())
+    .then(data => {
+      if (data.error) {
+        result.innerHTML = "<span style='color:red'>" + data.error + "</span>";
+      } else {
+        result.innerHTML = `
+          <div>
+            <strong>الاسم:</strong> ${data.name}<br>
+            <strong>الخدمة:</strong> ${data.service}<br>
+            <strong>الحالة:</strong> ${data.status}
+          </div>
+        `;
+      }
+    })
+    .catch(() => {
+      result.innerHTML = "<span style='color:red'>خطأ في الاتصال</span>";
+    });
+}
+</script>
 
 </body>
 </html>
